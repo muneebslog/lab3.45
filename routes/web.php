@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\invoiceController;
+use App\Http\Controllers\GuestReportWithHeaderPdfController;
 use App\Http\Controllers\LetterPadController;
 use App\Http\Controllers\ReportWithHeaderPdfController;
 use App\Http\Controllers\TestViewController;
@@ -9,6 +10,7 @@ use App\Livewire\AddResults;
 use App\Livewire\EditReport;
 use App\Livewire\GuestInvoice;
 use App\Livewire\GuestPatientReports;
+use App\Livewire\GuestShowReport;
 use App\Livewire\Invoice;
 use App\Livewire\ListCases;
 use App\Livewire\NewformFilament;
@@ -26,6 +28,14 @@ Route::get('my-reports', GuestPatientReports::class)
 Route::get('my-visit/{patient}', GuestInvoice::class)
     ->middleware('throttle:60,1')
     ->name('guest.invoice');
+
+Route::get('my-report/{patientTest}/view', GuestShowReport::class)
+    ->middleware(['signed', 'throttle:60,1'])
+    ->name('guest.report.show');
+
+Route::get('my-report/{patientTest}/pdf', GuestReportWithHeaderPdfController::class)
+    ->middleware(['signed', 'throttle:30,1'])
+    ->name('guest.report.pdf');
 
 Route::get('dashboard', DashboardController::class)
     ->middleware(['auth', 'verified'])
