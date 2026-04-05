@@ -2,25 +2,26 @@
 
 namespace App\Livewire;
 
-use App\Models\Test;
 use App\Models\Patient;
-use App\Models\TestField;
+use App\Models\Test;
 use Livewire\Component;
 
 class Invoice extends Component
 {
     public $qr;
+
     public $total = 0;
-    public $test ;
+
+    public $test;
 
     public $testField = false;
 
     public $patient;
+
     public $tests;
 
     public function mount($id)
     {
-
 
         $this->tests = Test::all();
         $data = Patient::with('tests')->find($id);
@@ -46,6 +47,10 @@ class Invoice extends Component
 
     public function add()
     {
+        if (! auth()->user()?->isAdmin()) {
+            abort(403);
+        }
+
         // Attach the selected test to the patient's tests
         $test = Test::find($this->test);
         $this->patient->tests()->attach($test);
@@ -54,6 +59,10 @@ class Invoice extends Component
 
     public function delTest($id)
     {
+        if (! auth()->user()?->isAdmin()) {
+            abort(403);
+        }
+
         // Detach the test from the patient's tests
         $this->patient->tests()->detach($id);
 

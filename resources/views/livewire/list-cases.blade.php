@@ -53,7 +53,11 @@
                     <span class="bg-gradient-to-r from-cyan-200 via-teal-200 to-emerald-200 bg-clip-text text-transparent">list</span>
                 </h1>
                 <p class="mt-3 max-w-lg text-pretty text-sm leading-relaxed text-slate-400 sm:text-base">
-                    Filter by date, search by name or phone, and open invoices or edit patient records. Showing
+                    @if (auth()->user()?->isAdmin())
+                        Filter by date, search by name or phone, and open invoices or edit patient records. Showing
+                    @else
+                        Filter by date, search by name or phone, and open invoices or reports. Showing
+                    @endif
                     <span class="font-semibold text-slate-200">{{ $rangeLabel }}</span>.
                 </p>
             </div>
@@ -234,13 +238,15 @@
                                         >
                                             Open
                                         </a>
-                                        <a
-                                            href="{{ route('patientEdit', $item->id) }}"
-                                            wire:navigate
-                                            class="rounded-lg px-3 py-1.5 text-xs font-semibold text-slate-400 transition hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white/30"
-                                        >
-                                            Edit
-                                        </a>
+                                        @if (auth()->user()?->isAdmin())
+                                            <a
+                                                href="{{ route('patientEdit', $item->id) }}"
+                                                wire:navigate
+                                                class="rounded-lg px-3 py-1.5 text-xs font-semibold text-slate-400 transition hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white/30"
+                                            >
+                                                Edit
+                                            </a>
+                                        @endif
                                     </div>
                                 </td>
                             </tr>

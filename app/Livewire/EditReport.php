@@ -91,6 +91,10 @@ class EditReport extends Component
 
     public function save()
     {
+        if (! auth()->user()?->isAdmin()) {
+            abort(403);
+        }
+
         foreach ($this->results as $testFieldId => $resultValue) {
             // Check if result is an array and handle it appropriately
             if (is_array($resultValue)) {

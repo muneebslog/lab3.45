@@ -141,21 +141,25 @@
                                 </div>
                                 <div class=" flex gap-3  col-span-2">
                                     @if (!$item->pivot->isResultAdded)
-                                        <a href="{{ route('addResults', ['patientId' => $patient->id, 'testId' => $item->id]) }}"
-                                            type="button"
-                                            class="py-1 px-2 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
-                                            Add Result
-                                        </a>
-                                        <button type="button" wire:confirm wire:click='delTest({{ $item->id }})'
-                                            class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-red-600 text-white hover:bg-red-700 focus:outline-none focus:bg-red-700 disabled:opacity-50 disabled:pointer-events-none">
-                                            X
-                                        </button>
+                                        @if (auth()->user()?->isAdmin())
+                                            <a href="{{ route('addResults', ['patientId' => $patient->id, 'testId' => $item->id]) }}"
+                                                type="button"
+                                                class="py-1 px-2 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
+                                                Add Result
+                                            </a>
+                                            <button type="button" wire:confirm wire:click='delTest({{ $item->id }})'
+                                                class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-red-600 text-white hover:bg-red-700 focus:outline-none focus:bg-red-700 disabled:opacity-50 disabled:pointer-events-none">
+                                                X
+                                            </button>
+                                        @endif
                                     @else
-                                        <a href="{{ route('editreport', ['patientId' => $patient->id, 'testId' => $item->id]) }}"
-                                            type="button"
-                                            class="py-0 px-2 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
-                                            Edit
-                                        </a>
+                                        @if (auth()->user()?->isAdmin())
+                                            <a href="{{ route('editreport', ['patientId' => $patient->id, 'testId' => $item->id]) }}"
+                                                type="button"
+                                                class="py-0 px-2 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
+                                                Edit
+                                            </a>
+                                        @endif
                                         <a target="__blank" href="{{ route('showreport', $item->pivot->id) }}"
                                             type="button"
                                             class="py-1 px-2 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:pointer-events-none">
@@ -226,16 +230,18 @@
                     </div>
                 </div>
                 <!-- End Flex -->
-                <div class="mt-6 flex justify-end gap-x-3">
-                    {{-- <a class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-lg border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-neutral-800 dark:hover:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:hover:text-white dark:focus:ring-offset-gray-800" target= "_blank" href="{{ route('invoiceDownload', $patient->id)  }}">
+                @if (auth()->user()?->isAdmin())
+                    <div class="mt-6 flex justify-end gap-x-3">
+                        {{-- <a class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-lg border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-neutral-800 dark:hover:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:hover:text-white dark:focus:ring-offset-gray-800" target= "_blank" href="{{ route('invoiceDownload', $patient->id)  }}">
             <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
               Invoice PDF
             </a> --}}
-                    <button wire:click="$set('testField', true)" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
-                        Add Test
-                    </button>
-                </div>
+                        <button wire:click="$set('testField', true)" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                            Add Test
+                        </button>
+                    </div>
+                @endif
             </div>
             <!-- End Card -->
 

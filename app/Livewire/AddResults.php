@@ -114,6 +114,10 @@ class AddResults extends Component
 
     public function save()
     {
+        if (! auth()->user()?->isAdmin()) {
+            abort(403);
+        }
+
         foreach ($this->results as $testCode => $array) {
             $data = PatientTest::where('patient_id', $this->patient->id)
                 ->where('test_id', $testCode)->first(); // Use first() instead of get()[0]

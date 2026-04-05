@@ -8,11 +8,17 @@ use Livewire\Component;
 class PatientEdit extends Component
 {
     public $name;
+
     public $age;
+
     public $reciept;
+
     public $phone;
+
     public $gender;
+
     public $doctor;
+
     public $patient;
 
     public function mount(Patient $id)
@@ -28,6 +34,10 @@ class PatientEdit extends Component
 
     public function update()
     {
+        if (! auth()->user()?->isAdmin()) {
+            abort(403);
+        }
+
         // Validate inputs
         $this->validate([
             'name' => 'required|string|max:255',
@@ -37,7 +47,7 @@ class PatientEdit extends Component
         ]);
 
         // Update the patient
-        $res=$this->patient->update([
+        $res = $this->patient->update([
             'name' => $this->name,
             'age' => $this->age,
             'phone' => $this->phone,
@@ -45,7 +55,7 @@ class PatientEdit extends Component
             'receipt_no' => $this->reciept,
             'doctor' => $this->doctor,
         ]);
-        if($res){
+        if ($res) {
             return redirect()->route('cases-list');
 
         }
