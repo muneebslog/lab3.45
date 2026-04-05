@@ -5,5 +5,6 @@ use App\Http\Middleware\VerifyHmsApiToken;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['throttle:60,1', VerifyHmsApiToken::class])->group(function (): void {
+    Route::get('/hms/tests', [HmsLabCaseController::class, 'catalog']);
     Route::post('/hms/lab-cases', [HmsLabCaseController::class, 'store']);
 });

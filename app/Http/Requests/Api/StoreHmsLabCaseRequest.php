@@ -22,7 +22,8 @@ class StoreHmsLabCaseRequest extends FormRequest
             'age_unit' => ['nullable', 'string', 'in:Month,Year'],
             'gender' => ['required', 'string', 'in:male,female'],
             'test_codes' => ['required', 'array', 'min:1'],
-            'test_codes.*' => ['required', 'string', 'max:100'],
+            // Integers from JSON or numeric strings (HMS / labtests.json style), not short_hand names.
+            'test_codes.*' => ['required', 'numeric'],
         ];
     }
 
@@ -45,7 +46,16 @@ class StoreHmsLabCaseRequest extends FormRequest
         if ($this->has('test_codes') && is_array($this->input('test_codes'))) {
             $this->merge([
                 'test_codes' => array_values(array_filter(
-                    array_map(fn ($c) => is_string($c) ? trim($c) : $c, $this->input('test_codes')),
+                    array_map(function ($c) {
+                        if ($c === null || $c === '') {
+                            return null;
+                        }
+                        if (is_string($c)) {
+                            $c = trim($c);
+                        }
+
+                        return is_numeric($c) ? 0 + $c : $c;
+                    }, $this->input('test_codes')),
                     fn ($c) => $c !== null && $c !== ''
                 )),
             ]);

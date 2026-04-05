@@ -11,6 +11,27 @@ use Illuminate\Support\Facades\DB;
 
 class HmsLabCaseController extends Controller
 {
+    public function catalog(): JsonResponse
+    {
+        $rows = Test::query()->orderBy('code')->get();
+
+        return response()->json([
+            'tests' => $rows->map(function (Test $t) {
+                $row = [
+                    'id' => $t->id,
+                    'code' => $t->code,
+                    'name' => $t->name,
+                    'price' => $t->price,
+                ];
+                if (array_key_exists('department', $t->getAttributes())) {
+                    $row['department'] = $t->department;
+                }
+
+                return $row;
+            })->values(),
+        ]);
+    }
+
     public function store(StoreHmsLabCaseRequest $request): JsonResponse
     {
         $validated = $request->validated();
@@ -24,11 +45,8 @@ class HmsLabCaseController extends Controller
         $testIds = [];
 
         foreach ($codes as $code) {
-            $test = Test::query()
-                ->where(function ($q) use ($code) {
-                    $q->where('code', $code)->orWhere('short_hand', $code);
-                })
-                ->first();
+            $codeKey = self::normalizeTestCode($code);
+            $test = Test::query()->where('code', $codeKey)->first();
 
             if (! $test) {
                 $missing[] = $code;
@@ -40,7 +58,7 @@ class HmsLabCaseController extends Controller
         if ($missing !== []) {
             return response()->json([
                 'message' => 'One or more test codes were not found.',
-                'missing_test_codes' => array_values(array_unique($missing)),
+                'missing_test_codes' => array_values(array_unique($missing, SORT_REGULAR)),
             ], 422);
         }
 
@@ -67,5 +85,14 @@ class HmsLabCaseController extends Controller
             'patient_id' => $patient->id,
             'invoice_url' => url('/invoice/'.$patient->id),
         ], 201);
+    }
+
+    private static function normalizeTestCode(int|float|string $code): string
+    {
+        if (is_string($code)) {
+            return preg_replace('/\s+/', '', trim($code));
+        }
+
+        return (string) (int) $code;
     }
 }
