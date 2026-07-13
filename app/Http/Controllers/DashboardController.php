@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Patient;
+use App\Models\PatientTest;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -18,6 +19,8 @@ class DashboardController extends Controller
         $pendingTests = 0;
         $testsOrderedLastWeek = 0;
         $completedLastWeek = 0;
+        $unprintedReports = collect();
+        $missingResults = collect();
 
         if (Schema::hasTable('patient_test')) {
             $pendingQuery = DB::table('patient_test')->where('isResultAdded', 0);
@@ -55,6 +58,21 @@ class DashboardController extends Controller
                 ->value('aggregate');
         }
 
+        if (Schema::hasTable('patient_test')) {
+            $unprintedReports = PatientTest::with(['patient', 'test'])
+                ->where('isResultAdded', 1)
+                ->where('isPrinted', 0)
+                ->where('updated_at', '<=', Carbon::now()->subDays(2))
+                ->orderBy('updated_at', 'asc')
+                ->get();
+
+            $missingResults = PatientTest::with(['patient', 'test'])
+                ->where('isResultAdded', 0)
+                ->where('created_at', '<=', Carbon::now()->subDays(2))
+                ->orderBy('created_at', 'asc')
+                ->get();
+        }
+
         return view('dashboard', compact(
             'weekStart',
             'weekEnd',
@@ -62,6 +80,8 @@ class DashboardController extends Controller
             'testsOrderedLastWeek',
             'completedLastWeek',
             'newPatientsLastWeek',
+            'unprintedReports',
+            'missingResults',
         ));
     }
 }

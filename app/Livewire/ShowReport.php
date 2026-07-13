@@ -16,6 +16,7 @@ class ShowReport extends Component
         // dd($data->id);
         // $results=TestResult::where('patient_test_id',$data->id)->get();
         // dd($data->test->code);
+        $data?->markAsPrinted();
         $this->data=$data;
         // $this->hi();
         // dd($data);

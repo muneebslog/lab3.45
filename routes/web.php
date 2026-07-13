@@ -16,6 +16,7 @@ use App\Livewire\ListCases;
 use App\Livewire\NewformFilament;
 use App\Livewire\NoHeaderShowReport;
 use App\Livewire\PatientEdit;
+use App\Livewire\Reports;
 use App\Livewire\ShowReport;
 use Illuminate\Support\Facades\Route;
 
@@ -48,6 +49,7 @@ Route::view('profile', 'profile')
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('invoice/{id}', Invoice::class)->name('invoice');
     Route::get('caselist', ListCases::class)->name('cases-list');
+    Route::get('reports', Reports::class)->name('reports.index');
     Route::get('newcase/', NewformFilament::class)->name('new-case');
 
     Route::get('test/addresults/{patientId}/{testId}', AddResults::class)

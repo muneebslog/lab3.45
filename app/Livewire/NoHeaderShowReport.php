@@ -12,6 +12,7 @@ class NoHeaderShowReport extends Component
     public function mount($id)
     {
         $data = PatientTest::with('patient', 'test', 'testResults')->find($id);
+        $data?->markAsPrinted();
         $this->data = $data;
 
         // Filter out the test results that have an empty result

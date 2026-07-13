@@ -14,7 +14,7 @@ class Patient extends Model
     public function tests()
     {
         return $this->BelongsToMany(Test::class)
-            ->withPivot('isResultAdded', 'isPrinted', 'id');
+            ->withPivot('isResultAdded', 'isPrinted', 'printed_at', 'id');
     }
 
     /**

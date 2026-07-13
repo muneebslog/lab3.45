@@ -129,6 +129,121 @@
                 </div>
             </section>
 
+            @if (auth()->user()?->isAdmin())
+                <section class="mt-14 dash-enter" style="animation-delay: 0.3s" aria-label="Admin alerts">
+                    <div class="flex items-center gap-3">
+                        <h2 class="text-lg font-bold text-white">Admin alerts</h2>
+                        @php
+                            $totalAlerts = $unprintedReports->count() + $missingResults->count();
+                        @endphp
+                        @if ($totalAlerts > 0)
+                            <span class="inline-flex h-6 min-w-6 items-center justify-center rounded-full bg-rose-500 px-2 text-xs font-bold text-white">
+                                {{ $totalAlerts }}
+                            </span>
+                        @endif
+                    </div>
+                    <p class="mt-1 text-sm text-slate-400">Items overdue by 2 days or more</p>
+
+                    <div class="mt-6 grid gap-6 lg:grid-cols-2">
+                        {{-- Reports not printed for 2+ days --}}
+                        <article class="rounded-xl bg-white/5 p-5 ring-1 ring-white/10 backdrop-blur-sm">
+                            <div class="mb-4 flex items-center justify-between">
+                                <h3 class="text-sm font-semibold text-white">Reports not printed</h3>
+                                <span class="rounded-full bg-amber-500/10 px-2.5 py-1 text-xs font-medium text-amber-300">
+                                    {{ $unprintedReports->count() }}
+                                </span>
+                            </div>
+                            @if ($unprintedReports->isEmpty())
+                                <p class="text-sm text-slate-400">No reports waiting to be printed.</p>
+                            @else
+                                <ul class="divide-y divide-white/10">
+                                    @foreach ($unprintedReports as $report)
+                                        <li class="py-3 first:pt-0 last:pb-0">
+                                            <div class="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+                                                <div>
+                                                    <p class="text-sm font-medium text-white">
+                                                        {{ $report->patient?->name ?? 'Unknown patient' }}
+                                                    </p>
+                                                    <p class="text-xs text-slate-400">
+                                                        {{ $report->test?->name ?? 'Unknown test' }}
+                                                        &bull;
+                                                        MR #{{ $report->patient?->created_at?->format('d-m-Y') ?? '—' }}-{{ $report->patient_id }}
+                                                    </p>
+                                                </div>
+                                                <div class="mt-2 flex items-center gap-3 sm:mt-0">
+                                                    <span class="text-xs font-medium text-rose-300">
+                                                        {{ ceil($report->updated_at->diffInDays(now())) }} days
+                                                    </span>
+                                                    <a href="{{ route('invoice', $report->patient_id) }}"
+                                                        wire:navigate
+                                                        class="text-xs font-medium text-cyan-300 hover:text-cyan-200">
+                                                        Invoice
+                                                    </a>
+                                                    <a href="{{ route('showreport', $report->id) }}"
+                                                        target="_blank"
+                                                        class="text-xs font-medium text-cyan-300 hover:text-cyan-200">
+                                                        Print
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            @endif
+                        </article>
+
+                        {{-- Results not added for 2+ days --}}
+                        <article class="rounded-xl bg-white/5 p-5 ring-1 ring-white/10 backdrop-blur-sm">
+                            <div class="mb-4 flex items-center justify-between">
+                                <h3 class="text-sm font-semibold text-white">Results not added</h3>
+                                <span class="rounded-full bg-rose-500/10 px-2.5 py-1 text-xs font-medium text-rose-300">
+                                    {{ $missingResults->count() }}
+                                </span>
+                            </div>
+                            @if ($missingResults->isEmpty())
+                                <p class="text-sm text-slate-400">No pending results.</p>
+                            @else
+                                <ul class="divide-y divide-white/10">
+                                    @foreach ($missingResults as $item)
+                                        <li class="py-3 first:pt-0 last:pb-0">
+                                            <div class="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+                                                <div>
+                                                    <p class="text-sm font-medium text-white">
+                                                        {{ $item->patient?->name ?? 'Unknown patient' }}
+                                                    </p>
+                                                    <p class="text-xs text-slate-400">
+                                                        {{ $item->test?->name ?? 'Unknown test' }}
+                                                        &bull;
+                                                        MR #{{ $item->patient?->created_at?->format('d-m-Y') ?? '—' }}-{{ $item->patient_id }}
+                                                    </p>
+                                                </div>
+                                                <div class="mt-2 flex items-center gap-3 sm:mt-0">
+                                                    <span class="text-xs font-medium text-rose-300">
+                                                        {{ ceil($item->created_at->diffInDays(now())) }} days
+                                                    </span>
+                                                    <a href="{{ route('invoice', $item->patient_id) }}"
+                                                        wire:navigate
+                                                        class="text-xs font-medium text-cyan-300 hover:text-cyan-200">
+                                                        Invoice
+                                                    </a>
+                                                    @if ($item->test_id)
+                                                        <a href="{{ route('addResults', ['patientId' => $item->patient_id, 'testId' => $item->test_id]) }}"
+                                                            wire:navigate
+                                                            class="text-xs font-medium text-cyan-300 hover:text-cyan-200">
+                                                            Add result
+                                                        </a>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            @endif
+                        </article>
+                    </div>
+                </section>
+            @endif
+
             <section class="mt-14 dash-enter" style="animation-delay: 0.3s" aria-label="Quick actions">
                 <h2 class="text-lg font-bold text-white">Quick actions</h2>
                 <p class="mt-1 text-sm text-slate-400">Jump back into daily lab workflows</p>
@@ -152,6 +267,16 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zM3.75 12h.007v.008H3.75V12zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm-.375 5.25h.007v.008H3.75v-.008zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/>
                         </svg>
                         Case list
+                    </a>
+                    <a
+                        href="{{ route('reports.index') }}"
+                        wire:navigate
+                        class="inline-flex items-center justify-center gap-2 rounded-xl border border-white/25 bg-white/5 px-6 py-3.5 text-sm font-semibold text-white shadow-sm backdrop-blur-sm transition hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
+                    >
+                        <svg class="h-5 w-5 text-cyan-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/>
+                        </svg>
+                        Reports
                     </a>
                 </div>
             </section>

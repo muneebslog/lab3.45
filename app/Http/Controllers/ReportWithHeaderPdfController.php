@@ -18,6 +18,8 @@ class ReportWithHeaderPdfController extends Controller
             ])
             ->findOrFail($patientTest->id);
 
+        $patientTest->markAsPrinted();
+
         $filename = 'lab-report-'.Str::slug($data->patient->name ?? 'patient').'-'.$data->id.'.pdf';
 
         return Pdf::loadView('reports.report-with-header-pdf', ['data' => $data])

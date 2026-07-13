@@ -127,6 +127,17 @@
                                             </svg>
                                             Active
                                         </span>
+                                        @if ($item->pivot->isPrinted)
+                                            <span
+                                                class="mt-1 py-0.5 px-1.5 inline-flex items-center gap-x-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-full dark:bg-blue-500/10 dark:text-blue-500">
+                                                Printed
+                                            </span>
+                                        @else
+                                            <span
+                                                class="mt-1 py-0.5 px-1.5 inline-flex items-center gap-x-1 text-xs font-medium bg-slate-100 text-slate-800 rounded-full dark:bg-slate-500/10 dark:text-slate-400">
+                                                Not printed
+                                            </span>
+                                        @endif
                                     @else
                                         <span
                                             class="py-1 px-1.5 inline-flex items-center gap-x-1 text-xs font-medium bg-yellow-100 text-yellow-800 rounded-full dark:bg-yellow-500/10 dark:text-yellow-500">
