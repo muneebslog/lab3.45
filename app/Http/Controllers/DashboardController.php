@@ -63,8 +63,8 @@ class DashboardController extends Controller
                 ->where('isResultAdded', 1)
                 ->where('isPrinted', 0)
                 ->where('updated_at', '<=', Carbon::now()->subDays(2))
-                ->orderBy('updated_at', 'asc')
-                ->get();
+                ->orderBy('updated_at', 'desc')
+                ->paginate(10, ['*'], 'unprinted_page');
 
             $missingResults = PatientTest::with(['patient', 'test'])
                 ->where('isResultAdded', 0)
@@ -83,5 +83,14 @@ class DashboardController extends Controller
             'unprintedReports',
             'missingResults',
         ));
+    }
+
+    public function markPrinted(PatientTest $patientTest)
+    {
+        abort_unless(auth()->user()?->isAdmin(), 403);
+
+        $patientTest->markAsPrinted();
+
+        return back();
     }
 }
