@@ -134,7 +134,7 @@
                     <div class="flex items-center gap-3">
                         <h2 class="text-lg font-bold text-white">Admin alerts</h2>
                         @php
-                            $totalAlerts = $unprintedReports->total() + $missingResults->count();
+                            $totalAlerts = $unprintedReports->total() + $missingResults->total();
                         @endphp
                         @if ($totalAlerts > 0)
                             <span class="inline-flex h-6 min-w-6 items-center justify-center rounded-full bg-rose-500 px-2 text-xs font-bold text-white">
@@ -213,7 +213,7 @@
                             <div class="mb-4 flex items-center justify-between">
                                 <h3 class="text-sm font-semibold text-white">Results not added</h3>
                                 <span class="rounded-full bg-rose-500/10 px-2.5 py-1 text-xs font-medium text-rose-300">
-                                    {{ $missingResults->count() }}
+                                    {{ $missingResults->total() }}
                                 </span>
                             </div>
                             @if ($missingResults->isEmpty())
@@ -242,6 +242,19 @@
                                                         class="text-xs font-medium text-cyan-300 hover:text-cyan-200">
                                                         Invoice
                                                     </a>
+                                                    <form method="POST"
+                                                        action="{{ route('admin.reports.mark-result-added', $item) }}"
+                                                        class="inline-flex items-center gap-1.5"
+                                                        title="Mark result as added">
+                                                        @csrf
+                                                        <input
+                                                            type="checkbox"
+                                                            id="result-added-{{ $item->id }}"
+                                                            onchange="this.form.submit()"
+                                                            class="h-4 w-4 cursor-pointer rounded border-slate-600 bg-slate-700 text-cyan-500 focus:ring-cyan-500/50"
+                                                        >
+                                                        <label for="result-added-{{ $item->id }}" class="cursor-pointer text-xs text-slate-400">Added</label>
+                                                    </form>
                                                     @if ($item->test_id)
                                                         <a href="{{ route('addResults', ['patientId' => $item->patient_id, 'testId' => $item->test_id]) }}"
                                                             wire:navigate
@@ -254,6 +267,9 @@
                                         </li>
                                     @endforeach
                                 </ul>
+                                <div class="mt-4">
+                                    {{ $missingResults->onEachSide(1)->links('vendor.pagination.dark') }}
+                                </div>
                             @endif
                         </article>
                     </div>

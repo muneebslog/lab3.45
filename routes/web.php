@@ -49,6 +49,8 @@ Route::view('profile', 'profile')
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('admin/reports/{patientTest}/mark-printed', [DashboardController::class, 'markPrinted'])
         ->name('admin.reports.mark-printed');
+    Route::post('admin/reports/{patientTest}/mark-result-added', [DashboardController::class, 'markResultAdded'])
+        ->name('admin.reports.mark-result-added');
 
     Route::get('invoice/{id}', Invoice::class)->name('invoice');
     Route::get('caselist', ListCases::class)->name('cases-list');
