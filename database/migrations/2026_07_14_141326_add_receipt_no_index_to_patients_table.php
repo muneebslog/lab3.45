@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('patients', function (Blueprint $table) {
-            $table->unsignedBigInteger('receipt_no')->nullable()->change();
+            // Keep the column as a string so existing values (e.g. "HS-1984") are preserved.
+            $table->string('receipt_no', 100)->nullable()->change();
             $table->index('receipt_no');
         });
     }
@@ -24,7 +25,7 @@ return new class extends Migration
     {
         Schema::table('patients', function (Blueprint $table) {
             $table->dropIndex(['receipt_no']);
-            $table->integer('receipt_no')->nullable()->change();
+            $table->string('receipt_no', 100)->nullable()->change();
         });
     }
 };
