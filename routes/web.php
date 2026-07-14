@@ -16,6 +16,7 @@ use App\Livewire\ListCases;
 use App\Livewire\NewformFilament;
 use App\Livewire\NoHeaderShowReport;
 use App\Livewire\PatientEdit;
+use App\Livewire\PublicInvoice;
 use App\Livewire\Reports;
 use App\Livewire\ShowReport;
 use Illuminate\Support\Facades\Route;
@@ -29,6 +30,10 @@ Route::get('my-reports', GuestPatientReports::class)
 Route::get('my-visit/{patient}', GuestInvoice::class)
     ->middleware('throttle:60,1')
     ->name('guest.invoice');
+
+Route::get('public/invoice/{invoice_number}', PublicInvoice::class)
+    ->middleware('throttle:60,1')
+    ->name('guest.public.invoice');
 
 Route::get('my-report/{patientTest}/view', GuestShowReport::class)
     ->middleware(['signed', 'throttle:60,1'])
