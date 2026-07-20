@@ -24,7 +24,7 @@ class Invoice extends Component
     {
 
         $this->tests = Test::all();
-        $data = Patient::with('tests')->find($id);
+        $data = Patient::with('tests')->findOrFail($id);
         $this->patient = $data;
 
         // Calculate total based on tests associated with the patient
@@ -35,7 +35,7 @@ class Invoice extends Component
 
     public function getData()
     {
-        $data = Patient::with('tests')->find($this->patient->id);
+        $data = Patient::with('tests')->findOrFail($this->patient->id);
         $this->patient = $data;
 
         // Recalculate the total

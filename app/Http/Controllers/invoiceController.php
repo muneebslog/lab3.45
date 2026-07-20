@@ -11,7 +11,7 @@ class invoiceController extends Controller
     //
     public function __invoke($invoiceId){
         $total=0;
-        $data=Patient::with('tests')->find($invoiceId);
+        $data=Patient::with('tests')->findOrFail($invoiceId);
         foreach ($data->tests as $test) {
             # code...
             $total+=($test->price);
