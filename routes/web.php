@@ -27,12 +27,13 @@ Route::get('my-reports', GuestPatientReports::class)
     ->middleware('throttle:30,1')
     ->name('guest.patient-reports');
 
-Route::get('my-visit/{patient}', GuestInvoice::class)
+Route::get('my-visit/{invoice_number}', GuestInvoice::class)
     ->middleware('throttle:60,1')
     ->name('guest.invoice');
 
-Route::get('public/invoice/{invoice_number}', PublicInvoice::class)
-    ->middleware('throttle:60,1')
+Route::get('public/invoice/{invoice_number}', function (string $invoice_number) {
+    return redirect()->route('guest.invoice', ['invoice_number' => $invoice_number], 301);
+})->middleware('throttle:60,1')
     ->name('guest.public.invoice');
 
 Route::get('my-report/{patientTest}/view', GuestShowReport::class)

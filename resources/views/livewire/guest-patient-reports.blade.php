@@ -47,7 +47,7 @@
                     @foreach ($this->visits as $visit)
                         <li wire:key="guest-visit-{{ $visit->id }}">
                             <a
-                                href="{{ route('guest.invoice', $visit) }}"
+                                href="{{ route('guest.invoice', ['invoice_number' => $visit->receipt_no]) }}"
                                 wire:navigate
                                 class="flex w-full items-center justify-between gap-3 overflow-hidden rounded-xl border border-slate-200 bg-white px-4 py-4 text-left shadow-sm transition hover:border-cyan-300/60 hover:bg-cyan-50/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2"
                             >

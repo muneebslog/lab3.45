@@ -22,7 +22,7 @@ test('public invoice page displays patient by receipt number', function () {
 
     $patient->tests()->attach($test->id);
 
-    $response = $this->get('/public/invoice/140720261001');
+    $response = $this->get('/my-visit/140720261001');
 
     $response->assertOk()
         ->assertSee('John Doe')
@@ -34,7 +34,7 @@ test('public invoice page displays patient by receipt number', function () {
 });
 
 test('public invoice page returns 404 for unknown receipt number', function () {
-    $response = $this->get('/public/invoice/999999999999');
+    $response = $this->get('/my-visit/999999999999');
 
     $response->assertNotFound();
 });

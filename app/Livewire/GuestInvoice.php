@@ -13,24 +13,13 @@ class GuestInvoice extends Component
 
     public int $total = 0;
 
-    public function mount(Patient $patient): void
+    public function mount(string $invoice_number): void
     {
-        $allowed = false;
-        if (request()->hasValidSignature()) {
-            $allowed = true;
-        } else {
-            $digits = session('guest_lab_verified_phone_digits');
-            if (is_string($digits) && strlen($digits) >= 10) {
-                $allowed = Patient::query()
-                    ->whereKey($patient->id)
-                    ->guestPhoneLookup($digits)
-                    ->exists();
-            }
-        }
+        $this->patient = Patient::query()
+            ->where('receipt_no', $invoice_number)
+            ->with('tests')
+            ->firstOrFail();
 
-        abort_unless($allowed, 404);
-
-        $this->patient = $patient->load('tests');
         $this->total = (int) $this->patient->tests->sum('price');
     }
 

@@ -30,7 +30,7 @@
                     </div>
                     <!-- Col -->
                     <div class="">
-                        {{ QrCode::size(60)->generate(\Illuminate\Support\Facades\URL::signedRoute('guest.invoice', ['patient' => $patient->id])) }}
+                        {{ QrCode::size(60)->generate(route('guest.invoice', ['invoice_number' => $patient->receipt_no])) }}
                         {{-- <img src="{{ asset('images/download.png') }}" class=" size-20" alt=""> --}}
                     </div>
                     <!-- Col -->

@@ -27,7 +27,7 @@
         </div>
 
         <div class="row-span-4 flex w-1/3 flex-col justify-center items-center">
-            {{ QrCode::size(60)->generate(\Illuminate\Support\Facades\URL::signedRoute('guest.invoice', ['patient' => $data->patient->id])) }}
+            {{ QrCode::size(60)->generate(route('guest.invoice', ['invoice_number' => $data->patient->receipt_no])) }}
             <p class="font-serif text-center">Track Online</p>
         </div>
         <div class="w-1/2">

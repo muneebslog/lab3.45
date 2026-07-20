@@ -8,7 +8,6 @@ use App\Models\Patient;
 use App\Models\Test;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\URL;
 
 class HmsLabCaseController extends Controller
 {
@@ -84,7 +83,7 @@ class HmsLabCaseController extends Controller
         return response()->json([
             'message' => 'Lab case created.',
             'patient_id' => $patient->id,
-            'invoice_url' => URL::signedRoute('guest.invoice', ['patient' => $patient]),
+            'invoice_url' => route('guest.invoice', ['invoice_number' => $patient->receipt_no]),
         ], 201);
     }
 

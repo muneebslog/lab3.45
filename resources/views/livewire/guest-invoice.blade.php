@@ -24,7 +24,7 @@
                         class="shrink-0 rounded-xl border border-slate-200/90 bg-slate-50 p-2.5 shadow-inner dark:border-neutral-600 dark:bg-neutral-800"
                         aria-label="Invoice link QR code"
                     >
-                        {{ QrCode::size(72)->margin(1)->generate(\Illuminate\Support\Facades\URL::signedRoute('guest.invoice', ['patient' => $patient->id])) }}
+                        {{ QrCode::size(72)->margin(1)->generate(route('guest.invoice', ['invoice_number' => $patient->receipt_no])) }}
                     </div>
                 </header>
 

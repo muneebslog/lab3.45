@@ -23,7 +23,7 @@
         </td>
         <td style="width: 16%; padding: 8px 6px; text-align: center; vertical-align: middle;">
             <div style="display: inline-block;">
-                {!! QrCode::size(56)->format('svg')->margin(0)->generate(\Illuminate\Support\Facades\URL::signedRoute('guest.invoice', ['patient' => $data->patient->id])) !!}
+                {!! QrCode::size(56)->format('svg')->margin(0)->generate(route('guest.invoice', ['invoice_number' => $data->patient->receipt_no])) !!}
             </div>
             <div style="font-family: DejaVu Serif, serif; font-size: 8px; text-align: center; margin-top: 4px;">Track Online</div>
         </td>
