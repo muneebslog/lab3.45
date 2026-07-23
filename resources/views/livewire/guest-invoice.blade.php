@@ -124,14 +124,6 @@
                                             <p class="w-full text-[0.65rem] font-semibold uppercase tracking-wider text-slate-400 sm:hidden dark:text-neutral-500">Reports</p>
                                             @if ($item->pivot->isResultAdded)
                                                 <a
-                                                    href="{{ \Illuminate\Support\Facades\URL::signedRoute('guest.report.show', ['patientTest' => $item->pivot->id]) }}"
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                    class="inline-flex flex-1 items-center justify-center rounded-lg bg-teal-700 px-3 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-teal-800 sm:flex-initial"
-                                                >
-                                                    View report
-                                                </a>
-                                                <a
                                                     href="{{ \Illuminate\Support\Facades\URL::signedRoute('guest.report.pdf', ['patientTest' => $item->pivot->id]) }}"
                                                     class="inline-flex flex-1 items-center justify-center rounded-lg border border-slate-300 bg-white px-3 py-2 text-xs font-semibold text-slate-800 shadow-sm transition hover:bg-slate-50 dark:border-neutral-600 dark:bg-neutral-800 dark:text-neutral-100 dark:hover:bg-neutral-700 sm:flex-initial"
                                                 >
