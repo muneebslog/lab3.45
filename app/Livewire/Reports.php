@@ -21,7 +21,7 @@ class Reports extends Component
     public function mount(): void
     {
         $today = Carbon::today()->format('Y-m-d');
-        $this->dateFrom = $today;
+        $this->dateFrom = Carbon::today()->subDays(3)->format('Y-m-d');
         $this->dateTo = $today;
         $this->getData();
     }
