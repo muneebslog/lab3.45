@@ -145,6 +145,7 @@
                     <thead>
                         <tr class="border-b border-white/10 bg-white/[0.02]">
                             <th scope="col" class="px-5 py-4 text-[0.65rem] font-bold uppercase tracking-[0.14em] text-slate-500 lg:pl-8">Patient</th>
+                            <th scope="col" class="px-5 py-4 text-[0.65rem] font-bold uppercase tracking-[0.14em] text-slate-500">Age</th>
                             <th scope="col" class="px-5 py-4 text-[0.65rem] font-bold uppercase tracking-[0.14em] text-slate-500">HMS Ref</th>
                             <th scope="col" class="px-5 py-4 text-[0.65rem] font-bold uppercase tracking-[0.14em] text-slate-500">Status</th>
                             <th scope="col" class="px-5 py-4 text-[0.65rem] font-bold uppercase tracking-[0.14em] text-slate-500">Portfolio</th>
@@ -177,6 +178,14 @@
                                             <span class="block truncate text-xs text-slate-500 group-hover:text-slate-400">{{ $item->phone }}</span>
                                         </div>
                                     </a>
+                                </td>
+                                <td class="px-5 py-4 align-middle">
+                                    <span class="text-sm tabular-nums text-slate-300">
+                                        {{ $item->age ?? '-' }}
+                                    </span>
+                                    @if ($item->age)
+                                        <span class="text-xs text-slate-500">{{ $item->age_unit }}</span>
+                                    @endif
                                 </td>
                                 <td class="px-5 py-4 align-middle">
                                     <a href="{{ route('invoice', $item->id) }}" wire:navigate class="block font-mono text-sm text-slate-300 tabular-nums transition hover:text-cyan-200">
@@ -252,7 +261,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6" class="px-6 py-20 text-center">
+                                <td colspan="7" class="px-6 py-20 text-center">
                                     <div class="mx-auto max-w-md">
                                         <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] text-slate-500">
                                             <svg class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.25" aria-hidden="true">
