@@ -46,7 +46,8 @@ class ListCases extends Component
             $like = '%'.$term.'%';
             $query->where(function ($q) use ($like) {
                 $q->where('name', 'like', $like)
-                    ->orWhere('phone', 'like', $like);
+                    ->orWhere('phone', 'like', $like)
+                    ->orWhere('receipt_no', 'like', $like);
             });
         }
 

@@ -145,7 +145,7 @@
                     <thead>
                         <tr class="border-b border-white/10 bg-white/[0.02]">
                             <th scope="col" class="px-5 py-4 text-[0.65rem] font-bold uppercase tracking-[0.14em] text-slate-500 lg:pl-8">Patient</th>
-                            <th scope="col" class="px-5 py-4 text-[0.65rem] font-bold uppercase tracking-[0.14em] text-slate-500">Record #</th>
+                            <th scope="col" class="px-5 py-4 text-[0.65rem] font-bold uppercase tracking-[0.14em] text-slate-500">HMS Ref</th>
                             <th scope="col" class="px-5 py-4 text-[0.65rem] font-bold uppercase tracking-[0.14em] text-slate-500">Status</th>
                             <th scope="col" class="px-5 py-4 text-[0.65rem] font-bold uppercase tracking-[0.14em] text-slate-500">Portfolio</th>
                             <th scope="col" class="px-5 py-4 text-[0.65rem] font-bold uppercase tracking-[0.14em] text-slate-500">Registered</th>
@@ -180,7 +180,7 @@
                                 </td>
                                 <td class="px-5 py-4 align-middle">
                                     <a href="{{ route('invoice', $item->id) }}" wire:navigate class="block font-mono text-sm text-slate-300 tabular-nums transition hover:text-cyan-200">
-                                        {{ $item->created_at->format('d-m-Y') }}-{{ $item->id }}
+                                        {{ $item->receipt_no ?? $item->created_at->format('d-m-Y') . '-' . $item->id }}
                                     </a>
                                 </td>
                                 <td class="px-5 py-4 align-middle">
