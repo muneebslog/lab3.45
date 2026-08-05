@@ -22,9 +22,15 @@
             </table>
         </td>
         <td style="width: 16%; padding: 8px 6px; text-align: center; vertical-align: middle;">
-            <div style="display: inline-block;">
-                {!! QrCode::size(56)->format('svg')->margin(0)->generate(route('guest.invoice', ['invoice_number' => $data->patient->receipt_no])) !!}
-            </div>
+            @php
+                $qrSrc = \App\Support\QrPng::dataUri(
+                    route('guest.invoice', ['invoice_number' => $data->patient->receipt_no]),
+                    112
+                );
+            @endphp
+            @if ($qrSrc)
+                <img src="{{ $qrSrc }}" width="56" height="56" alt="Track online" style="display: inline-block;"/>
+            @endif
             <div style="font-family: DejaVu Serif, serif; font-size: 8px; text-align: center; margin-top: 4px;">Track Online</div>
         </td>
         <td style="width: 42%; padding: 8px 0 8px 12px;">
