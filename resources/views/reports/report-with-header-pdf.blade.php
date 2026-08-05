@@ -16,7 +16,7 @@
 
         body {
             font-family: DejaVu Sans, sans-serif;
-            font-size: 12px;
+            font-size: 13px;
             color: #111;
             margin: 0;
             padding: 0;
@@ -39,7 +39,7 @@
         .pdf-footer-note {
             margin: 0 0 4px 0;
             text-align: center;
-            font-size: 9px;
+            font-size: 10px;
             font-family: DejaVu Serif, serif;
         }
 
@@ -59,21 +59,21 @@
 
         .pdf-signatures h3 {
             font-family: DejaVu Serif, serif;
-            font-size: 10px;
+            font-size: 11px;
             font-weight: bold;
             margin: 0 0 2px 0;
         }
 
         .pdf-signatures p {
             font-family: DejaVu Serif, serif;
-            font-size: 8px;
+            font-size: 9px;
             margin: 0;
             line-height: 1.25;
         }
 
         .pdf-address-bar {
             text-align: center;
-            font-size: 10px;
+            font-size: 11px;
             background: #312e81;
             color: #fff;
             padding: 8px 8px;
@@ -86,7 +86,7 @@
         }
 
         .pdf-address-bar .pdf-address-line2 {
-            font-size: 9px;
+            font-size: 10px;
             margin-top: 3px;
         }
     </style>
