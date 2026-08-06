@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\GuestPatientAllReportsPdfController;
 use App\Http\Controllers\invoiceController;
 use App\Http\Controllers\GuestReportWithHeaderPdfController;
 use App\Http\Controllers\LetterPadController;
+use App\Http\Controllers\PatientAllReportsPdfController;
 use App\Http\Controllers\ReportWithHeaderPdfController;
 use App\Http\Controllers\TestViewController;
 use App\Livewire\AddResults;
@@ -44,6 +46,10 @@ Route::get('my-report/{patientTest}/pdf', GuestReportWithHeaderPdfController::cl
     ->middleware(['signed', 'throttle:30,1'])
     ->name('guest.report.pdf');
 
+Route::get('my-visit/{invoice_number}/reports/pdf', GuestPatientAllReportsPdfController::class)
+    ->middleware(['signed', 'throttle:20,1'])
+    ->name('guest.reports.pdf.all');
+
 Route::get('dashboard', DashboardController::class)
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
@@ -71,6 +77,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('report/pdf/header/{patientTest}', ReportWithHeaderPdfController::class)
         ->middleware('throttle:30,1')
         ->name('report.pdf.header');
+    Route::get('report/pdf/all/{patient}', PatientAllReportsPdfController::class)
+        ->middleware('throttle:20,1')
+        ->name('report.pdf.all');
     Route::get('report/show/noheader/{id}', NoHeaderShowReport::class)->name('noheaderreport');
     Route::get('report/edit/{patientId}/{testId}', EditReport::class)
         ->middleware('lab.admin')

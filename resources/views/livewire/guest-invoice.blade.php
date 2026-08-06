@@ -150,6 +150,25 @@
                         <p class="text-2xl font-bold tabular-nums tracking-tight sm:text-[1.65rem]">Rs {{ number_format((float) $total, 0, '.', ',') }}</p>
                     </div>
                 </footer>
+
+                @php
+                    $hasDownloadableReports = $patient->tests->contains(fn ($test) => (bool) $test->pivot->isResultAdded);
+                @endphp
+                @if ($hasDownloadableReports)
+                    <div class="mt-5">
+                        <a
+                            href="{{ \Illuminate\Support\Facades\URL::signedRoute('guest.reports.pdf.all', ['invoice_number' => $patient->receipt_no]) }}"
+                            class="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-800 shadow-sm transition hover:bg-slate-50 dark:border-neutral-600 dark:bg-neutral-800 dark:text-neutral-100 dark:hover:bg-neutral-700"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="7 10 12 15 17 10"/>
+                                <line x1="12" x2="12" y1="15" y2="3"/>
+                            </svg>
+                            Download All
+                        </a>
+                    </div>
+                @endif
             </div>
         </article>
     </div>
