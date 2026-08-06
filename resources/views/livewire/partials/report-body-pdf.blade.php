@@ -1,11 +1,13 @@
 {{-- PDF-safe markup (tables + inline styles). Mirrors livewire/partials/report-body.blade.php for DomPDF. --}}
-<table width="100%" cellspacing="0" cellpadding="0" style="border-top: 1px solid #111; border-bottom: 1px solid #111; margin: 0 0 12px 0;">
+<table width="100%" cellspacing="0" cellpadding="0"
+    style="border-top: 1px solid #111; border-bottom: 1px solid #111; margin: 0 0 12px 0;">
     <tr valign="top">
         <td style="width: 42%; padding: 8px 12px 8px 0;">
             <table width="100%" cellspacing="0" cellpadding="2">
                 <tr>
                     <td style="font-weight: bold; font-size: 14px;">Patient Name</td>
-                    <td style="font-size: 14px; text-align: right; text-transform: uppercase;">{{ $data->patient->name }}</td>
+                    <td style="font-size: 14px; text-align: right; text-transform: uppercase;">
+                        {{ $data->patient->name }}</td>
                 </tr>
                 <tr>
                     <td style="font-weight: bold; font-size: 14px;">Receipt Number</td>
@@ -13,11 +15,13 @@
                 </tr>
                 <tr>
                     <td style="font-weight: bold; font-size: 14px;">Age:</td>
-                    <td style="font-size: 14px; text-align: right;">{{ $data->patient->age }} {{ $data->patient->age_unit }}</td>
+                    <td style="font-size: 14px; text-align: right;">{{ $data->patient->age }}
+                        {{ $data->patient->age_unit }}</td>
                 </tr>
                 <tr>
                     <td style="font-weight: bold; font-size: 14px;">Sample Date</td>
-                    <td style="font-size: 14px; text-align: right;">{{ $data->patient->created_at->format('d M Y') }}</td>
+                    <td style="font-size: 14px; text-align: right;">{{ $data->patient->created_at->format('d M Y') }}
+                    </td>
                 </tr>
             </table>
         </td>
@@ -25,13 +29,15 @@
             @php
                 $qrSrc = \App\Support\QrPng::dataUri(
                     route('guest.invoice', ['invoice_number' => $data->patient->receipt_no]),
-                    112
+                    112,
                 );
             @endphp
             @if ($qrSrc)
-                <img src="{{ $qrSrc }}" width="56" height="56" alt="Track online" style="display: inline-block;"/>
+                <img src="{{ $qrSrc }}" width="56" height="56" alt="Track online"
+                    style="display: inline-block;" />
             @endif
-            <div style="font-family: DejaVu Serif, serif; font-size: 11px; text-align: center; margin-top: 4px;">Track Online</div>
+            <div style="font-family: DejaVu Serif, serif; font-size: 11px; text-align: center; margin-top: 4px;">Track
+                Online</div>
         </td>
         <td style="width: 42%; padding: 8px 0 8px 12px;">
             <table width="100%" cellspacing="0" cellpadding="2">
@@ -41,7 +47,8 @@
                 </tr>
                 <tr>
                     <td style="font-weight: bold; font-size: 14px;">Sex</td>
-                    <td style="font-size: 14px; text-align: right; text-transform: capitalize;">{{ $data->patient->gender }}</td>
+                    <td style="font-size: 14px; text-align: right; text-transform: capitalize;">
+                        {{ $data->patient->gender }}</td>
                 </tr>
                 <tr>
                     <td style="font-weight: bold; font-size: 14px;">Phone</td>
@@ -49,7 +56,8 @@
                 </tr>
                 <tr>
                     <td style="font-size: 14px;">Report Date:</td>
-                    <td style="font-size: 14px; text-align: right;">{{ $data->patient->updated_at->format('d M Y') }}</td>
+                    <td style="font-size: 14px; text-align: right;">{{ $data->patient->updated_at->format('d M Y') }}
+                    </td>
                 </tr>
             </table>
         </td>
@@ -57,10 +65,12 @@
 </table>
 
 <div style="width: 100%; max-width: 100%;">
-    <h2 style="font-size: 18px; font-weight: bold; text-decoration: underline; text-transform: uppercase; text-align: center; margin: 6px 0 4px 0; font-family: DejaVu Serif, serif;">
+    <h2
+        style="font-size: 18px; font-weight: bold; text-decoration: underline; text-transform: uppercase; text-align: center; margin: 6px 0 4px 0; font-family: DejaVu Serif, serif;">
         {{ $data->test->department }} Reports
     </h2>
-    <h2 style="font-size: 18px; font-weight: bold; text-decoration: underline; text-align: left; margin: 4px 0 10px 0; font-family: DejaVu Serif, serif;">
+    <h2
+        style="font-size: 18px; font-weight: bold; text-decoration: underline; text-align: left; margin: 4px 0 10px 0; font-family: DejaVu Serif, serif;">
         {{ $data->test->name }} @if ($data->test->short_hand)
             ( {{ $data->test->short_hand }} )
         @endif
@@ -77,7 +87,8 @@
                     <table width="100%" cellspacing="0" cellpadding="0" style="border-collapse: collapse;">
                         <thead>
                             <tr>
-                                <th colspan="2" style="padding: 8px 10px; background-color: #e5e7eb; color: #4b5563; border: 1px solid #d1d5db; text-align: left; font-size: 12px; text-transform: uppercase;">
+                                <th colspan="2"
+                                    style="padding: 8px 10px; background-color: #e5e7eb; color: #4b5563; border: 1px solid #d1d5db; text-align: left; font-size: 12px; text-transform: uppercase;">
                                     PHYSICAL EXAMINATION
                                 </th>
                             </tr>
@@ -86,8 +97,10 @@
                             @foreach ($data->testResults as $i => $item)
                                 @if ($item->testField->id > 39 && $item->testField->id < 53)
                                     <tr>
-                                        <td style="padding: 5px 10px; border: 1px solid #d1d5db; font-size: 14px;">{{ $item->testField->field_name }}</td>
-                                        <td style="padding: 5px 10px; border: 1px solid #d1d5db; font-size: 14px;">{{ $item->result }}</td>
+                                        <td style="padding: 5px 10px; border: 1px solid #d1d5db; font-size: 14px;">
+                                            {{ $item->testField->field_name }}</td>
+                                        <td style="padding: 5px 10px; border: 1px solid #d1d5db; font-size: 14px;">
+                                            {{ $item->result }}</td>
                                     </tr>
                                 @endif
                             @endforeach
@@ -98,7 +111,8 @@
                     <table width="100%" cellspacing="0" cellpadding="0" style="border-collapse: collapse;">
                         <thead>
                             <tr>
-                                <th colspan="3" style="padding: 8px 10px; background-color: #e5e7eb; color: #4b5563; border: 1px solid #d1d5db; text-align: left; font-size: 12px; text-transform: uppercase;">
+                                <th colspan="3"
+                                    style="padding: 8px 10px; background-color: #e5e7eb; color: #4b5563; border: 1px solid #d1d5db; text-align: left; font-size: 12px; text-transform: uppercase;">
                                     MICROSCOPIC EXAMINATION
                                 </th>
                             </tr>
@@ -107,8 +121,10 @@
                             @foreach ($data->testResults as $i => $item)
                                 @if ($item->testField->id > 52 && $item->testField->id < 63)
                                     <tr>
-                                        <td style="padding: 5px 10px; border: 1px solid #d1d5db; font-size: 14px;">{{ $item->testField->field_name }}</td>
-                                        <td style="padding: 5px 10px; border: 1px solid #d1d5db; font-size: 14px;">{{ $item->result }}</td>
+                                        <td style="padding: 5px 10px; border: 1px solid #d1d5db; font-size: 14px;">
+                                            {{ $item->testField->field_name }}</td>
+                                        <td style="padding: 5px 10px; border: 1px solid #d1d5db; font-size: 14px;">
+                                            {{ $item->result }}</td>
                                         <td style="padding: 5px 10px; border: 1px solid #d1d5db; font-size: 14px;">
                                             @if (
                                                 $item->testField->id == 53 ||
@@ -134,8 +150,10 @@
                 <tbody style="font-weight: bold;">
                     @foreach ($data->testResults as $i => $item)
                         <tr>
-                            <td style="padding: 5px 10px; border: 1px solid #d1d5db; font-size: 14px;">{{ $item->testField->field_name }}</td>
-                            <td style="padding: 5px 10px; border: 1px solid #d1d5db; font-size: 14px;">{{ $item->result }}</td>
+                            <td style="padding: 5px 10px; border: 1px solid #d1d5db; font-size: 14px;">
+                                {{ $item->testField->field_name }}</td>
+                            <td style="padding: 5px 10px; border: 1px solid #d1d5db; font-size: 14px;">
+                                {{ $item->result }}</td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -145,8 +163,11 @@
                 <tbody style="font-weight: bold;">
                     @foreach ($data->testResults as $i => $item)
                         <tr>
-                            <td style="padding: 5px 10px; border: 1px solid #d1d5db; font-size: 14px;">{{ $item->testField->field_name }}</td>
-                            <td style="padding: 5px 10px; border: 1px solid #d1d5db; font-size: 14px; text-align: center;">{{ $item->result }}</td>
+                            <td style="padding: 5px 10px; border: 1px solid #d1d5db; font-size: 14px;">
+                                {{ $item->testField->field_name }}</td>
+                            <td
+                                style="padding: 5px 10px; border: 1px solid #d1d5db; font-size: 14px; text-align: center;">
+                                {{ $item->result }}</td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -173,8 +194,11 @@
                 <tbody style="font-weight: bold;">
                     @foreach ($sortedResults as $i => $item)
                         <tr>
-                            <td style="padding: 5px 10px; border: 1px solid #d1d5db; font-size: 14px;">{{ $item->testField->field_name }}</td>
-                            <td style="padding: 5px 10px; border: 1px solid #d1d5db; font-size: 14px; text-align: center;">{{ $item->result }}</td>
+                            <td style="padding: 5px 10px; border: 1px solid #d1d5db; font-size: 14px;">
+                                {{ $item->testField->field_name }}</td>
+                            <td
+                                style="padding: 5px 10px; border: 1px solid #d1d5db; font-size: 14px; text-align: center;">
+                                {{ $item->result }}</td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -229,10 +253,12 @@
                 </tr>
                 <tr>
                     <td>Cross Match Results:</td>
-                    <td colspan="3" style="font-weight: bold; font-size: 16px;">{{ $results['Cross Match Result'] ?? '' }}</td>
+                    <td colspan="3" style="font-weight: bold; font-size: 16px;">
+                        {{ $results['Cross Match Result'] ?? '' }}</td>
                 </tr>
             </table>
-            <h2 style="text-align: center; font-weight: bold; font-size: 16px; margin: 12px 0 8px 0;">DONORâ€™s TESTs</h2>
+            <h2 style="text-align: center; font-weight: bold; font-size: 16px; margin: 12px 0 8px 0;">DONORâ€™s TESTs
+            </h2>
             <table width="100%" cellspacing="0" cellpadding="6" style="font-size: 14px;">
                 @php
                     $testFields = ['HbsAg', 'Anti HCV', 'HIV', 'VDRL', 'M.P'];
@@ -250,8 +276,10 @@
                 <tbody style="font-weight: bold;">
                     @foreach ($data->testResults as $i => $item)
                         <tr>
-                            <td style="padding: 5px 10px; border: 1px solid #d1d5db; font-size: 14px;">{{ $item->testField->field_name }}</td>
-                            <td style="padding: 5px 10px; border: 1px solid #d1d5db; font-size: 14px;">{{ $item->result }}</td>
+                            <td style="padding: 5px 10px; border: 1px solid #d1d5db; font-size: 14px;">
+                                {{ $item->testField->field_name }}</td>
+                            <td style="padding: 5px 10px; border: 1px solid #d1d5db; font-size: 14px;">
+                                {{ $item->result }}</td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -259,7 +287,8 @@
         @endif
     @elseif ($data->test->code == 2802)
         <div style="padding: 4px 0;">
-            <table width="100%" cellspacing="0" cellpadding="0" style="border-collapse: collapse; font-size: 14px;">
+            <table width="100%" cellspacing="0" cellpadding="0"
+                style="border-collapse: collapse; font-size: 14px;">
                 <thead>
                     <tr>
                         <th style="padding: 8px; border: 1px solid #d1d5db; text-align: left;">Type</th>
@@ -274,7 +303,7 @@
                     @php
                         $grouped = collect($data->testResults)
                             ->mapWithKeys(
-                                fn ($r) => [
+                                fn($r) => [
                                     $r->testField->field_name => $r->result,
                                 ],
                             )
@@ -285,13 +314,15 @@
 
                     @foreach ($grouped as $type => $values)
                         <tr>
-                            <td style="padding: 8px; border: 1px solid #d1d5db; font-weight: 600;">{{ $type }}</td>
+                            <td style="padding: 8px; border: 1px solid #d1d5db; font-weight: 600;">{{ $type }}
+                            </td>
                             @foreach (['1:20', '1:40', '1:80', '1:160', '1:320'] as $titer)
                                 @php
                                     $key = "$type $titer";
                                     $res = $values->get($key, '-');
                                 @endphp
-                                <td style="padding: 8px; border: 1px solid #d1d5db; text-align: center;">{{ $res }}</td>
+                                <td style="padding: 8px; border: 1px solid #d1d5db; text-align: center;">
+                                    {{ $res }}</td>
                             @endforeach
                         </tr>
                     @endforeach
@@ -301,7 +332,8 @@
             <div style="border: 1px solid #d1d5db; padding: 8px 12px; margin-top: 10px; font-size: 11px;">
                 <p style="font-weight: bold; margin: 0 0 6px 0;">Note:</p>
                 <ol style="margin: 0; padding-left: 16px;">
-                    <li>Titres â‰¥1:80 of â€œOâ€ antigen &amp; â‰¥1:160 of â€œHâ€ antigen for Salmonella typhi and titres
+                    <li>Titres â‰¥1:80 of â€œOâ€ antigen &amp; â‰¥1:160 of â€œHâ€ antigen for Salmonella typhi and
+                        titres
                         â‰¥1:80 of â€œHâ€ antigen for Salmonella paratyphi A &amp; B are significant.</li>
                     <li>Rising titres in paired samples taken 7â€“10 days apart are more significant than a single
                         test.</li>
@@ -332,18 +364,27 @@
         <table width="100%" cellspacing="0" cellpadding="0" style="border-collapse: collapse;">
             <thead>
                 <tr>
-                    <th style="padding: 6px 10px; background-color: #e5e7eb; color: #4b5563; border-top: 1px solid #d1d5db; border-bottom: 1px solid #d1d5db; border-left: 1px solid #d1d5db; text-align: left; font-size: 11px; font-weight: bold; text-transform: uppercase;">
+                    <th
+                        style="padding: 6px 10px; background-color: #e5e7eb; color: #4b5563; border-top: 1px solid #d1d5db; border-bottom: 1px solid #d1d5db; border-left: 1px solid #d1d5db; text-align: left; font-size: 11px; font-weight: bold; text-transform: uppercase;">
                         Test Name
                     </th>
-                    <th style="padding: 6px 10px; background-color: #e5e7eb; color: #4b5563; border-top: 1px solid #d1d5db; border-bottom: 1px solid #d1d5db; border-left: 1px solid #d1d5db; text-align: left; font-size: 11px; font-weight: bold; text-transform: uppercase;">
-                        Normal Value
-                    </th>
-                    <th style="padding: 6px 10px; background-color: #e5e7eb; color: #4b5563; border-top: 1px solid #d1d5db; border-bottom: 1px solid #d1d5db; border-left: 1px solid #d1d5db; text-align: left; font-size: 11px; font-weight: bold; text-transform: uppercase;">
+                    @if ($testcode != 1316)
+                        <th
+                            style="padding: 6px 10px; background-color: #e5e7eb; color: #4b5563; border-top: 1px solid #d1d5db; border-bottom: 1px solid #d1d5db; border-left: 1px solid #d1d5db; text-align: left; font-size: 11px; font-weight: bold; text-transform: uppercase;">
+                            Normal Value
+                        </th>
+
+                    <th
+                        style="padding: 6px 10px; background-color: #e5e7eb; color: #4b5563; border-top: 1px solid #d1d5db; border-bottom: 1px solid #d1d5db; border-left: 1px solid #d1d5db; text-align: left; font-size: 11px; font-weight: bold; text-transform: uppercase;">
                         Unit
                     </th>
-                    <th style="padding: 6px 6px; background-color: #e5e7eb; color: #4b5563; border-top: 1px solid #d1d5db; border-bottom: 1px solid #d1d5db; border-left: 1px solid #d1d5db; text-align: left; font-size: 11px; font-weight: bold; text-transform: uppercase; width: 28px;">
+                    @endif
+
+                    <th
+                        style="padding: 6px 6px; background-color: #e5e7eb; color: #4b5563; border-top: 1px solid #d1d5db; border-bottom: 1px solid #d1d5db; border-left: 1px solid #d1d5db; text-align: left; font-size: 11px; font-weight: bold; text-transform: uppercase; width: 28px;">
                     </th>
-                    <th style="padding: 6px 10px; background-color: #e5e7eb; color: #4b5563; border-top: 1px solid #d1d5db; border-bottom: 1px solid #d1d5db; border-left: 1px solid #d1d5db; border-right: 1px solid #d1d5db; text-align: left; font-size: 11px; font-weight: bold; text-transform: uppercase;">
+                    <th
+                        style="padding: 6px 10px; background-color: #e5e7eb; color: #4b5563; border-top: 1px solid #d1d5db; border-bottom: 1px solid #d1d5db; border-left: 1px solid #d1d5db; border-right: 1px solid #d1d5db; text-align: left; font-size: 11px; font-weight: bold; text-transform: uppercase;">
                         Result
                     </th>
                 </tr>
@@ -362,7 +403,7 @@
                                 ->where('gender', $data->patient->gender)
                                 ->first();
 
-                            if (! $genderRange) {
+                            if (!$genderRange) {
                                 $genderRange = $item->testField->normalRanges->where('gender', 'all')->first();
                             }
 
@@ -385,24 +426,36 @@
                     @endphp
 
                     <tr>
-                        <td style="padding: 4px 10px; font-size: 14px; vertical-align: top;">{{ $item->testField->field_name }}</td>
-                        <td style="padding: 4px 10px; font-size: 14px; vertical-align: top;">{{ $minValue }} -
-                            {{ $maxValue }}</td>
-                        <td style="padding: 4px 10px; font-size: 14px; vertical-align: top;">{{ $item->testField->unit }}</td>
-                        <td style="padding: 4px 6px; font-size: 14px; vertical-align: top; {{ $isOutOfRange ? 'font-weight: bold;' : '' }}">{{ $status }}</td>
-                        <td style="padding: 4px 10px; font-size: 14px; vertical-align: top; {{ $isOutOfRange ? 'font-weight: bold;' : '' }}">{{ $item->result }}</td>
+                        <td style="padding: 4px 10px; font-size: 14px; vertical-align: top;">
+                            {{ $item->testField->field_name }}</td>
+                        @if ($testcode != 1316)
+                            <td style="padding: 4px 10px; font-size: 14px; vertical-align: top;">{{ $minValue }} -
+                                {{ $maxValue }}</td>
+
+                        <td style="padding: 4px 10px; font-size: 14px; vertical-align: top;">
+                            {{ $item->testField->unit }}</td>
+                        @endif
+
+                        <td
+                            style="padding: 4px 6px; font-size: 14px; vertical-align: top; {{ $isOutOfRange ? 'font-weight: bold;' : '' }}">
+                            {{ $status }}</td>
+                        <td
+                            style="padding: 4px 10px; font-size: 14px; vertical-align: top; {{ $isOutOfRange ? 'font-weight: bold;' : '' }}">
+                            {{ $item->result }}</td>
                     </tr>
 
                     @if ($data->test->code == 1300 && count($data->testResults) == 13 && $i == 8)
                         <tr>
-                            <td colspan="5" style="padding: 4px 10px; font-size: 14px; font-weight: bold; text-decoration: underline;">
+                            <td colspan="5"
+                                style="padding: 4px 10px; font-size: 14px; font-weight: bold; text-decoration: underline;">
                                 Differential Leukocytes Count:
                             </td>
                         </tr>
                     @endif
                     @if ($data->test->code == 1300 && count($data->testResults) == 12 && $i == 7)
                         <tr>
-                            <td colspan="5" style="padding: 4px 10px; font-size: 14px; font-weight: bold; text-decoration: underline;">
+                            <td colspan="5"
+                                style="padding: 4px 10px; font-size: 14px; font-weight: bold; text-decoration: underline;">
                                 Differential Leukocytes Count:
                             </td>
                         </tr>
