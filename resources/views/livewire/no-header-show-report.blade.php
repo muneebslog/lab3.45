@@ -327,14 +327,16 @@
                             class="px-6 py-2 bg-gray-200 text-gray-600 border-b border-t border-l border-gray-300 text-left text-sm uppercase">
                             Test Name
                         </th>
-                        <th
-                            class="px-6 py-2 bg-gray-200 text-gray-600 border-b border-t border-gray-300 text-left text-sm uppercase">
-                            Normal Value
-                        </th>
-                        <th
-                            class="px-6 py-2 bg-gray-200 text-gray-600 border-b border-t border-gray-300 text-left text-sm uppercase">
-                            Unit
-                        </th>
+                        @if ($data->test->code != 1316)
+                            <th
+                                class="px-6 py-2 bg-gray-200 text-gray-600 border-b border-t border-gray-300 text-left text-sm uppercase">
+                                Normal Value
+                            </th>
+                            <th
+                                class="px-6 py-2 bg-gray-200 text-gray-600 border-b border-t border-gray-300 text-left text-sm uppercase">
+                                Unit
+                            </th>
+                        @endif
                         <th
                             class="px-6 py-2 bg-gray-200 text-gray-600 border-b border-t border-gray-300 text-left text-sm uppercase">
 
@@ -401,9 +403,11 @@
                         <tr>
                             <td class="px-6 py-1 whitespace-no-wrap border-gray-300">{{ $item->testField->field_name }}
                             </td>
-                            <td class="px-6 py-1 whitespace-no-wrap border-gray-300">{{ $minValue }} -
-                                {{ $maxValue }}</td>
-                            <td class="px-6 py-1 whitespace-no-wrap border-gray-300">{{ $item->testField->unit }}</td>
+                            @if ($data->test->code != 1316)
+                                <td class="px-6 py-1 whitespace-no-wrap border-gray-300">{{ $minValue }} -
+                                    {{ $maxValue }}</td>
+                                <td class="px-6 py-1 whitespace-no-wrap border-gray-300">{{ $item->testField->unit }}</td>
+                            @endif
                             <td
                                 class="{{ $isOutOfRange ? 'font-bold' : '' }} px-6 py-1 whitespace-no-wrap border-gray-300">
                                 {{ $status }}</td>

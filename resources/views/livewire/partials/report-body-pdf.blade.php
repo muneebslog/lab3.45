@@ -335,12 +335,14 @@
                     <th style="padding: 6px 10px; background-color: #e5e7eb; color: #4b5563; border-top: 1px solid #d1d5db; border-bottom: 1px solid #d1d5db; border-left: 1px solid #d1d5db; text-align: left; font-size: 11px; font-weight: bold; text-transform: uppercase;">
                         Test Name
                     </th>
-                    <th style="padding: 6px 10px; background-color: #e5e7eb; color: #4b5563; border-top: 1px solid #d1d5db; border-bottom: 1px solid #d1d5db; border-left: 1px solid #d1d5db; text-align: left; font-size: 11px; font-weight: bold; text-transform: uppercase;">
-                        Normalfgedh Value
-                    </th>
-                    <th style="padding: 6px 10px; background-color: #e5e7eb; color: #4b5563; border-top: 1px solid #d1d5db; border-bottom: 1px solid #d1d5db; border-left: 1px solid #d1d5db; text-align: left; font-size: 11px; font-weight: bold; text-transform: uppercase;">
-                        Unit
-                    </th>
+                    @if ($data->test->code != 1316)
+                        <th style="padding: 6px 10px; background-color: #e5e7eb; color: #4b5563; border-top: 1px solid #d1d5db; border-bottom: 1px solid #d1d5db; border-left: 1px solid #d1d5db; text-align: left; font-size: 11px; font-weight: bold; text-transform: uppercase;">
+                            Normal Value
+                        </th>
+                        <th style="padding: 6px 10px; background-color: #e5e7eb; color: #4b5563; border-top: 1px solid #d1d5db; border-bottom: 1px solid #d1d5db; border-left: 1px solid #d1d5db; text-align: left; font-size: 11px; font-weight: bold; text-transform: uppercase;">
+                            Unit
+                        </th>
+                    @endif
                     <th style="padding: 6px 6px; background-color: #e5e7eb; color: #4b5563; border-top: 1px solid #d1d5db; border-bottom: 1px solid #d1d5db; border-left: 1px solid #d1d5db; text-align: left; font-size: 11px; font-weight: bold; text-transform: uppercase; width: 28px;">
                     </th>
                     <th style="padding: 6px 10px; background-color: #e5e7eb; color: #4b5563; border-top: 1px solid #d1d5db; border-bottom: 1px solid #d1d5db; border-left: 1px solid #d1d5db; border-right: 1px solid #d1d5db; text-align: left; font-size: 11px; font-weight: bold; text-transform: uppercase;">
@@ -386,9 +388,11 @@
 
                     <tr>
                         <td style="padding: 4px 10px; font-size: 14px; vertical-align: top;">{{ $item->testField->field_name }}</td>
-                        <td style="padding: 4px 10px; font-size: 14px; vertical-align: top;">{{ $minValue }} -
-                            {{ $maxValue }}</td>
-                        <td style="padding: 4px 10px; font-size: 14px; vertical-align: top;">{{ $item->testField->unit }}</td>
+                        @if ($data->test->code != 1316)
+                            <td style="padding: 4px 10px; font-size: 14px; vertical-align: top;">{{ $minValue }} -
+                                {{ $maxValue }}</td>
+                            <td style="padding: 4px 10px; font-size: 14px; vertical-align: top;">{{ $item->testField->unit }}</td>
+                        @endif
                         <td style="padding: 4px 6px; font-size: 14px; vertical-align: top; {{ $isOutOfRange ? 'font-weight: bold;' : '' }}">{{ $status }}</td>
                         <td style="padding: 4px 10px; font-size: 14px; vertical-align: top; {{ $isOutOfRange ? 'font-weight: bold;' : '' }}">{{ $item->result }}</td>
                     </tr>
