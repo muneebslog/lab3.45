@@ -129,6 +129,13 @@ class AddResults extends Component
             $patient_test_id = $data->id;
 
             foreach ($array as $test_field_id => $result) {
+                // Prevent duplicate entries if the user clicks save more than once.
+                if (TestResult::where('patient_test_id', $patient_test_id)
+                    ->where('test_field_id', $test_field_id)
+                    ->exists()) {
+                    continue;
+                }
+
                 // Check if result is an array and handle it appropriately
                 if (is_array($result)) {
                     // Convert the array to JSON string or handle it in another way
