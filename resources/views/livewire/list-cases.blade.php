@@ -189,7 +189,7 @@
                                 </td>
                                 <td class="px-5 py-4 align-middle">
                                     <a href="{{ route('invoice', $item->id) }}" wire:navigate class="block font-mono text-sm text-slate-300 tabular-nums transition hover:text-cyan-200">
-                                        {{ $item->receipt_no ?? $item->created_at->format('d-m-Y') . '-' . $item->id }}
+                                        {{ $item->receipt_no ?? $item->created_at->format('d-m-Y h:i') . '-' . $item->id }}
                                     </a>
                                 </td>
                                 <td class="px-5 py-4 align-middle">
